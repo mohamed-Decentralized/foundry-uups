@@ -1,66 +1,37 @@
-## Foundry
+# Upgradeable Box Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This repository contains two versions of a simple upgradeable smart contract, `BoxV1` and `BoxV2`. The contract allows storing and retrieving a single value, with the ability to upgrade the contract using the UUPS (Universal Upgradeable Proxy Standard) pattern.
 
-Foundry consists of:
+The contract is upgradeable, meaning that it can evolve over time without losing its state or breaking the existing deployed instances.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Features
 
-## Documentation
+- **Upgradeable Contract**: Uses UUPS pattern to allow for future upgrades without losing state.
+- **Ownable**: Only the contract owner can perform specific actions (like upgrading).
+- **Versioning**: Each contract version includes a method to return the current version.
 
-https://book.getfoundry.sh/
+### BoxV1 (Version 1)
 
-## Usage
+- **Storage**: Stores a `uint256` value.
+- **Getter**: Allows retrieving the stored value using `getValue()`.
+- **Version**: Version 1 of the contract.
 
-### Build
+### BoxV2 (Version 2)
 
-```shell
-$ forge build
-```
+- **Setter and Getter**: Adds the ability to set the value using `setValue(uint256 newValue)` in addition to getting it.
+- **Version**: Version 2 of the contract, which introduces the ability to update the stored value.
 
-### Test
+## How It Works
 
-```shell
-$ forge test
-```
+1. **Deployment**: The contract is deployed using an upgradeable proxy pattern. This allows for upgrades without losing the stored data (i.e., the value).
+2. **Upgrade Process**: The contract uses the `UUPSUpgradeable` pattern for upgrading. Only the owner can authorize an upgrade to a new implementation.
+3. **Versioning**: The contract has a `version()` function that returns the current version, allowing you to track upgrades.
 
-### Format
+## Installation
 
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+```bash
+git clone https://github.com/mohamed-Decentralized/foundry-uups.git
+cd foundry-uups
+forge install
+forge build
 ```
